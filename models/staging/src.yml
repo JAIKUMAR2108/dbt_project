@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: src_hospital
+    database: hospital_data_model
+    schema: source
+    tables:
+      - name: appointments
+      - name: billing
+      - name: doctors
+      - name: patients
+      - name: treatments 
