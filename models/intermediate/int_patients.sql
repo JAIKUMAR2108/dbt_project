@@ -17,6 +17,7 @@ select
     coalesce(address,'unknown') as address,
     coalesce(registration_date,'01-01-1900') as registration_date,
     coalesce(insurance_provider,'unknown') as insurance_provider,
+    coalesce(insurance_number,'unknown') as insurance_number,
     case 
         when email ilike '%@mail.com' then email
         else 'invalid mail id'

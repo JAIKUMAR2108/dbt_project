@@ -1,6 +1,9 @@
 {{
     config(
-        schema = 'INTERMEDIATE'
+        materialized ='incremental',
+        strategy ='merge',
+        unique_key ='doctor_id',
+        schema ='INTERMEDIATE'
     )
 }}
 
@@ -12,7 +15,7 @@ select
     case
         when LENGTH(phone_number) = 10 then phone_number
         else 0
-    end as contact_number,
+    end as phone_number,
     CASE 
         WHEN COALESCE(years_experience, 0) = 1 THEN '1 year'
         ELSE COALESCE(years_experience, 0)::STRING || ' years'
@@ -21,6 +24,7 @@ select
     case
         when email ilike '%@hospital.com' then email
         else 'invalid mail id'
-    end as email
+    end as email,
+    current_timestamp() as last_updated_date
 from 
     {{ ref('stg_doctors') }}
