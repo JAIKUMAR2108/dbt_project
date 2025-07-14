@@ -4,7 +4,8 @@
     )
 }}
 
-select 
+select
+    concat('p', row_number() over (order by patient_id)) as sk_patient, 
     patient_id,
     coalesce(first_name,'unknown') as first_name,
     coalesce(last_name,'unknown') as last_name,

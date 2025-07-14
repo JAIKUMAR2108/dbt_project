@@ -5,7 +5,8 @@
 }}
 
 select 
-    bill_id,
+    concat('b', row_number() over (order by bill_id)) AS sk_bill,
+    coalesce(bill_id,'unknown') as bill_id,
     coalesce(patient_id,'unknown') as patient_id,
     coalesce(treatment_id,'unknown') as treatment_id,
     coalesce(bill_date,'01-01-1900') as bill_date,

@@ -6,7 +6,7 @@
 }}
 
 select 
-    concat('d', ROW_NUMBER() OVER (ORDER BY dbt_valid_from)) AS surrogate_key,
+    sk_patient,
     patient_id,
     first_name,
     last_name,

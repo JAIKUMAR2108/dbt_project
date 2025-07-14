@@ -5,6 +5,7 @@
 }}
 
 select 
+    concat('t', row_number() over (order by treatment_id)) as sk_treatment, 
     treatment_id,
     coalesce(appointment_id,'unknown') as appointment_id,
     coalesce(treatment_type,'unknown') as treatment_type,

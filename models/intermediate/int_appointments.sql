@@ -5,7 +5,8 @@
 }}
 
 select 
-    appointment_id,
+    concat('a', row_number() over (order by appointment_id)) AS sk_appointment,
+    coalesce(appointment_id,'unknown') as appointment_id,
     coalesce(patient_id,'unknown') as patient_id,
     coalesce(doctor_id,'unknown') as doctor_id,
     coalesce(appointment_date,'01-01-1900') as appointment_date,
