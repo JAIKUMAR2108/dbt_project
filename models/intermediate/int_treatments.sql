@@ -4,6 +4,7 @@
     )
 }}
 
+
 select 
     concat('t', row_number() over (order by treatment_id)) as sk_treatment, 
     treatment_id,

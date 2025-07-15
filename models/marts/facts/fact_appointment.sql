@@ -7,8 +7,8 @@
 
 select
     concat(appointments.sk_appointment,patients.sk_patient,doctors.sk_doctor) as appointment_key,
-    patients.patient_id as patient_key,
-    doctors.doctor_id as doctor_key,
+    patients.sk_patient as patient_key,
+    doctors.sk_doctor as doctor_key,
     appointments.appointment_date,
     appointments.appointment_time,
     appointments.reason_for_visit,
