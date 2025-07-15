@@ -1,3 +1,8 @@
+{{
+    config(
+        schema = 'INTERMEDIATE'
+    )
+}}
 
 select 
     concat('d', row_number() over (order by doctor_id)) as sk_doctor,
