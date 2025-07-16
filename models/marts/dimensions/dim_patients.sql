@@ -1,7 +1,8 @@
 {{
     config(
         materialized='table',
-        schema ='dimensions'
+        schema ='dimensions',
+        tags = 'patients'
     )
 }}
 

@@ -1,6 +1,7 @@
 {{
     config(
-        schema = 'stage'
+        schema = 'stage',
+        tags = 'treatments'
     )
 }}
 
