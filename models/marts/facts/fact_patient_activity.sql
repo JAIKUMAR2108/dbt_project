@@ -46,7 +46,7 @@ select
     a.last_appointment_date
 from
     a a
-left join 
+join 
     b b
 on 
     a.patient_key=b.patient_key
