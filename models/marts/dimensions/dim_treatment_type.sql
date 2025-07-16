@@ -1,7 +1,7 @@
 {{
     config(
         materialized ='incremental',
-        unique_key ='treatment_id',
+        unique_key ='sk_treatment',
         strategy ='merge',
         schema = 'dimensions'
     )
@@ -23,21 +23,7 @@ with min_max as (
 
 select * from min_max
 
--- select 
---     treatment.sk_treatment,
---     treatment.treatment_id,
---     row_number() over (partition by treatment.treatment_type order by treatment.treatment_id) as treatment_type,
---     row_number() over (partition by treatment.description order by treatment.treatment_id) as description,
---     min_max.cost_range,
---     current_timestamp as last_update
--- from
---     {{ ref("int_treatments") }} treatment
--- join 
---     min_max min_max 
--- on  
---     treatment.treatment_type=min_max.treatment_type
--- and
---     treatment.description=min_max.description
+
 
 
 

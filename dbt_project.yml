@@ -37,7 +37,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   my_new_project:
-    # Applies to all files under models/example/
+    +post-hook:
+      - "{{ ctrl_log_model('HOSPITAL_DATA_MODEL.CONTROL_TABLE.CTRL_TAB') }}"
     staging:
       +materialized: table
-    
+
+on-run-end: 
+    - "{{ctrl_log_results(results, control_table='HOSPITAL_DATA_MODEL.CONTROL_TABLE.CTRL_TAB')}}"
