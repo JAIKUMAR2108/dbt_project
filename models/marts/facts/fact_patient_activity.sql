@@ -2,7 +2,7 @@
     config(
         materialized='table',
         schema='fact',
-        tags = 'patient_activity',
+        tags = 'patient_activity'
     )
 }}
 
