@@ -1,6 +1,7 @@
 {{
     config(
-        schema = 'INTERMEDIATE'
+        schema = 'INTERMEDIATE',
+        tags = 'appointments'
     )
 }}
 

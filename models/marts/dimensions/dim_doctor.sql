@@ -3,7 +3,8 @@
         materialized ='incremental',
         strategy ='merge',
         unique_key ='doctor_id',
-        schema ='dimensions'
+        schema ='dimensions',
+        tags = 'doctors'
     )
 }}
 

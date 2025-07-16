@@ -1,6 +1,9 @@
 {{
     config(
-        schema = 'stage'
+        schema = 'stage',
+        tags = 'billing'
+        
+        
     )
 }}
 

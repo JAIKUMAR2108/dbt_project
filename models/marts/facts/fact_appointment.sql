@@ -1,7 +1,8 @@
 {{
     config(
         materialized='table',
-        schema='fact'
+        schema='fact',
+        tags = 'appointments'
     )
 }}
 

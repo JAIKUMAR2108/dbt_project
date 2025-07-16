@@ -1,3 +1,11 @@
+{{
+    config(
+        materialized='table',
+        schema='fact',
+        tags = 'patient_activity'
+    )
+}}
+
 with a as(select
     patient.sk_patient as patient_key,
     count(*) as total_appointment,
