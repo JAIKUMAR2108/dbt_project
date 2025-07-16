@@ -1,6 +1,8 @@
 {{
     config(
-        schema ='fact'
+        materialized='table',
+        schema ='fact',
+        tags = 'billing'
     )
 }}
 
