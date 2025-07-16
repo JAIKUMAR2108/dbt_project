@@ -5,7 +5,7 @@
 }}
 
 select
-    treatment.appointment_id as appointment_key,
+    billing.sk_bill as bill_key,
     patient.sk_patient as patient_key,
     dim_treatment_type.sk_treatment as treatment_key,
     billing.bill_date as bill_date,

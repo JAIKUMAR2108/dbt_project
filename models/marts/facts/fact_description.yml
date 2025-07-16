@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: fact_appointment
+    description: "Fact table capturing individual patient appointments, including timing, purpose, and appointment status."
+    columns:
+      - name: appointment_key
+        description: "Primary key"
+      - name: patient_key
+        description: "FK to DimPatient"
+      - name: doctor_key
+        description: "Doctor identifier"
+      - name: appointment_date
+        description: "Date of appointment"
+      - name: appointment_time
+        description: "Time of appointment"
+      - name: reason_for_visit
+        description: "Reason (Checkup, Emergency, etc.)"
+      - name: status
+        description: "Scheduled, Completed, Cancelled, etc."
+
+  - name: fact_billing
+    description: "Fact table recording billing events linked to patients and treatments, including amount and payment status."
+    columns:
+      - name: bill_key
+        description: "Primary key"
+      - name: patient_key
+        description: "FK to DimPatient"
+      - name: treatment_key
+        description: "Treatment reference"
+      - name: bill_date
+        description: "Date of billing"
+      - name: amount
+        description: "Amount billed"
+      - name: payment_method
+        description: "Cash, Insurance, etc."
+      - name: payment_status
+        description: "Paid, Pending, Failed"
+
+  - name: fact_patient_activity
+    description: "Aggregated fact table summarizing patient activity metrics including appointments, billing totals, and no-show data."
+    columns:
+      - name: patient_key
+        description: "FK to DimPatient"
+      - name: total_appointments
+        description: "Count of appointments"
+      - name: total_billed
+        description: "Sum of billing amount"
+      - name: total_paid
+        description: "Sum of successful payments"
+      - name: no_show_count
+        description: "Count of no-shows"
+      - name: first_appointment_date
+        description: "First appointment date"
+      - name: last_appointment_date
+        description: "Most recent appointment"

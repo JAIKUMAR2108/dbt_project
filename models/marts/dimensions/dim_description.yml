@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: dim_patients
+    description: "This dimension table stores Slowly Changing Dimension Type 2 (SCD2) patient records, including demographics, contact, and insurance information."
+    columns:
+      - name: sk_patient
+        description: "Unique key for each version"
+      - name: patient_id
+        description: "Business key"
+      - name: first_name
+        description: "Patient's first name"
+      - name: last_name
+        description: "Patient's last name"
+      - name: gender
+        description: "Gender"
+      - name: date_of_birth
+        description: "DOB"
+      - name: contact_number
+        description: "Phone number "
+      - name: address
+        description: "Address"
+      - name: insurance_provider
+        description: "Insurance company "
+      - name: insurance_number
+        description: "Insurance ID"
+      - name: email
+        description: "Email address"
+      - name: registration_date
+        description: "First registration date"
+      - name: effective_start_date
+        description: "SCD2 start date"
+      - name: effective_end_date
+        description: "SCD2 end date"
+      - name: is_current
+        description: "Flag for current record (Y/N)"
+
+  - name: dim_doctor
+    description: "This dimension table contains doctor profiles, including specialization, contact details, and hospital branch."
+    columns:
+      - name: doctor_id
+        description: "Primary key"
+      - name: first_name
+        description: "First name"
+      - name: last_name
+        description: "Last name"
+      - name: specialization
+        description: "Medical specialization"
+      - name: phone_number
+        description: "Contact number"
+      - name: years_experience
+        description: "Years of experience"
+      - name: hospital_branch
+        description: "Branch location"
+      - name: email
+        description: "Email address"
+      - name: last_updated_date
+        description: "Timestamp of last update"
+
+  - name: dim_treatment_type
+    description: "This dimension table stores details about treatment types including descriptions, derived cost ranges, and update timestamps."
+    columns:
+      - name: sk_treatment
+        description: "unique key identifier"
+      - name: treatment_type
+        description: "e.g., MRI, ECG, Chemotherapy"
+      - name: description
+        description: "Description of the treatment"
+      - name: cost_range
+        description: "Derived: min-max cost for type"
+      - name: last_updated
+        description: "Timestamp of last update"
