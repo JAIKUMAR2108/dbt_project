@@ -24,27 +24,43 @@ models:
     columns:
       - name: bill_key
         description: "Primary key"
+        tests:
+          - unique
       - name: patient_key
-        description: "FK to DimPatient"
+        description: "DimPatient reference"
+        tests:
+          - not_null
       - name: treatment_key
         description: "Treatment reference"
+        tests:
+          - not_null
       - name: bill_date
         description: "Date of billing"
+        tests:
+          - not_null
       - name: amount
         description: "Amount billed"
+        tests:
+          - not_null
       - name: payment_method
-        description: "Cash, Insurance, etc."
+        description: " Payement methods like Cash, credit card etc"
+        tests:
+          - accepted_values:
+              values: ['Insurance','Credit Card','Cash']
       - name: payment_status
-        description: "Paid, Pending, Failed"
+        description: "Payment status like Paid, Pending, Failed"
+        tests:
+          - accepted_values:
+              values: ['Pending','Paid','Failed']
 
   - name: fact_patient_activity
     description: "Aggregated fact table summarizing patient activity metrics including appointments, billing totals, and no-show data."
     columns:
       - name: patient_key
         description: "FK to DimPatient"
-      - name: total_appointments
+      - name: total_appointment
         description: "Count of appointments"
-      - name: total_billed
+      - name: total_billing
         description: "Sum of billing amount"
       - name: total_paid
         description: "Sum of successful payments"
