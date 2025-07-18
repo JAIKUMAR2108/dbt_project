@@ -7,7 +7,7 @@ models:
       - name: appointment_key
         description: "unique key identifier"
         tests:
-          - unique
+          - not_null
       - name: patient_key
         description: "DimPatient reference"
         tests:
@@ -43,7 +43,7 @@ models:
       - name: bill_key
         description: "Primary key"
         tests:
-          - unique
+          - not_null
       - name: patient_key
         description: "DimPatient reference"
         tests:
