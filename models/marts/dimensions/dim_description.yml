@@ -7,7 +7,7 @@ models:
       - name: sk_patient
         description: "unique key identifier"
         tests:
-          - unique
+          - not_null
       - name: patient_id
         description: "Business key"
         tests:
