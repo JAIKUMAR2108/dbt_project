@@ -37,20 +37,24 @@ final as (
         s.email,
 
         case
-            when t.doctor_id is null  
-              or s.first_name != t.first_name
-              or s.last_name != t.last_name
-              or s.specialization != t.specialization
-              or s.phone_number != t.phone_number
-              or s.years_experience != t.years_experience
-              or s.hospital_branch != t.hospital_branch
-              or s.email != t.email
+            -- insert: target row doesn't exist
+            when t.doctor_id is null
+
+            -- or if any value has changed, null-safe
+            or s.first_name IS DISTINCT FROM t.first_name
+            or s.last_name IS DISTINCT FROM t.last_name
+            or s.specialization IS DISTINCT FROM t.specialization
+            or s.phone_number IS DISTINCT FROM t.phone_number
+            or s.years_experience IS DISTINCT FROM t.years_experience
+            or s.hospital_branch IS DISTINCT FROM t.hospital_branch
+            or s.email IS DISTINCT FROM t.email
+
             then s.new_last_updated_date
             else t.last_updated_date
         end as last_updated_date
     from source s
     left join {{ this }} t
-      on s.doctor_id = t.doctor_id
+        on s.doctor_id = t.doctor_id
 )
 
 select * from final
