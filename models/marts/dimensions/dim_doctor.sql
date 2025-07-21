@@ -5,7 +5,7 @@
         unique_key='doctor_id',
         schema='dimensions',
         tags='doctors',
-        merge_exclude_columns=['last_updated_date'] 
+        merge_exclude_columns=['created_at', 'last_updated_date']
     )
 }}
 
@@ -20,7 +20,7 @@ with source as (
         years_experience,
         hospital_branch,
         email,
-        current_timestamp() as new_last_updated_date
+        current_timestamp() as etl_time
     from {{ ref('int_doctors') }}
 ),
 
@@ -36,20 +36,23 @@ final as (
         s.hospital_branch,
         s.email,
 
+        -- Created at: only set when row is new
         case
-            -- insert: target row doesn't exist
+            when t.doctor_id is null then s.etl_time
+            else t.created_at
+        end as created_at,
+
+        -- Last updated: set when data changes
+        case
             when t.doctor_id is null
-
-            -- or if any value has changed, null-safe
-            or s.first_name IS DISTINCT FROM t.first_name
-            or s.last_name IS DISTINCT FROM t.last_name
-            or s.specialization IS DISTINCT FROM t.specialization
-            or s.phone_number IS DISTINCT FROM t.phone_number
-            or s.years_experience IS DISTINCT FROM t.years_experience
-            or s.hospital_branch IS DISTINCT FROM t.hospital_branch
-            or s.email IS DISTINCT FROM t.email
-
-            then s.new_last_updated_date
+              or s.first_name IS DISTINCT FROM t.first_name
+              or s.last_name IS DISTINCT FROM t.last_name
+              or s.specialization IS DISTINCT FROM t.specialization
+              or s.phone_number IS DISTINCT FROM t.phone_number
+              or s.years_experience IS DISTINCT FROM t.years_experience
+              or s.hospital_branch IS DISTINCT FROM t.hospital_branch
+              or s.email IS DISTINCT FROM t.email
+            then s.etl_time
             else t.last_updated_date
         end as last_updated_date
     from source s
