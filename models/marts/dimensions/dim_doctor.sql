@@ -1,14 +1,13 @@
 {{
     config(
-        materialized='incremental',
-        strategy='merge',
-        unique_key='doctor_id',
-        schema='dimensions',
-        tags='doctors',
-        merge_exclude_columns=['created_at', 'last_updated_date']
+        materialized = 'incremental',
+        strategy = 'merge',
+        unique_key = 'doctor_id',
+        schema = 'dimensions',
+        tags = ['doctors']
     )
 }}
-
+ 
 with source as (
     select
         sk_doctor,
@@ -20,44 +19,57 @@ with source as (
         years_experience,
         hospital_branch,
         email,
-        current_timestamp() as etl_time
+        created_at
     from {{ ref('int_doctors') }}
-),
-
-final as (
-    select
-        s.sk_doctor,
-        s.doctor_id,
-        s.first_name,
-        s.last_name,
-        s.specialization,
-        s.phone_number,
-        s.years_experience,
-        s.hospital_branch,
-        s.email,
-
-        -- Created at: only set when row is new
-        case
-            when t.doctor_id is null then s.etl_time
-            else t.created_at
-        end as created_at,
-
-        -- Last updated: set when data changes
-        case
-            when t.doctor_id is null
-              or s.first_name IS DISTINCT FROM t.first_name
-              or s.last_name IS DISTINCT FROM t.last_name
-              or s.specialization IS DISTINCT FROM t.specialization
-              or s.phone_number IS DISTINCT FROM t.phone_number
-              or s.years_experience IS DISTINCT FROM t.years_experience
-              or s.hospital_branch IS DISTINCT FROM t.hospital_branch
-              or s.email IS DISTINCT FROM t.email
-            then s.etl_time
-            else t.last_updated_date
-        end as last_updated_date
-    from source s
-    left join {{ this }} t
-        on s.doctor_id = t.doctor_id
 )
-
+ 
+{% if is_incremental() %}
+ 
+, target as (
+    select * from {{ this }}
+)
+ 
+, final as (
+    select
+        src.sk_doctor,
+        src.doctor_id,
+        src.first_name,
+        src.last_name,
+        src.specialization,
+        src.phone_number,
+        src.years_experience,
+        src.hospital_branch,
+        src.email,
+        coalesce(tgt.created_at, src.created_at) as created_at,
+        case
+            when tgt.doctor_id is not null and (
+                src.sk_doctor <> tgt.sk_doctor or
+                src.first_name <> tgt.first_name or
+                src.last_name <> tgt.last_name or
+                src.specialization <> tgt.specialization or
+                src.phone_number <> tgt.phone_number or
+                src.years_experience <> tgt.years_experience or
+                src.hospital_branch <> tgt.hospital_branch or
+                src.email <> tgt.email
+            )
+            then current_timestamp()
+            else tgt.updated_at
+        end as updated_at
+ 
+    from
+        source src
+    left join target tgt
+        on src.doctor_id = tgt.doctor_id
+)
+ 
 select * from final
+ 
+{% else %}
+ 
+
+select
+    *,
+    null as updated_at
+from source
+ 
+{% endif %}

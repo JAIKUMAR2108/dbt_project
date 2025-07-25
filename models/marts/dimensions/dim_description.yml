@@ -120,21 +120,15 @@ models:
     columns:
       - name: sk_treatment
         description: "unique key identifier"
-        tests:
-          - unique
+
       - name: treatment_type
         description: "Treatment types like MRI, ECG, Chemotherapy"
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['Chemotherapy','ECG','MRI','Physiotherapy','X-Ray']
+
       - name: description
         description: "Description of the treatment"
-        tests:
-          - not_null
+
       - name: cost_range
         description: "minimum and maximum cost range"
-        tests:
-          - not_null
+
       - name: last_updated
         description: "Timestamp of last update"

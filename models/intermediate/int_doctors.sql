@@ -23,6 +23,9 @@ select
     case
         when email ilike '%@hospital.com' then email
         else 'invalid mail id'
-    end as email
+    end as email,
+    created_at,
+    CURRENT_TIMESTAMP() AS last_modified_at  
+
 from 
     {{ ref('stg_doctors') }}
